@@ -12,6 +12,7 @@ namespace app\lib\exception;
 use Exception;
 use think\exception\Handle;
 use think\Request;
+use think\log;
 
 class ExceptionHandle extends Handle
 {
@@ -29,6 +30,7 @@ class ExceptionHandle extends Handle
             $this -> code = 500;
             $this -> msg = '服务器内部错误，不想告诉你';
             $this -> errorCode = 999;
+            $this -> recordErrorLog($e);
         }
         $request = Request::instance();
         $result = [
@@ -39,5 +41,17 @@ class ExceptionHandle extends Handle
 
         return json($result,$this->code);
 
+    }
+
+    private function recordErrorLog(Exception $e){
+        Log::init([
+            // 日志记录方式，内置 file socket 支持扩展
+            'type'  => 'File',
+            // 日志保存目录
+            'path'  => LOG_PATH,
+            // 日志记录级别
+            'level' => ['error'],
+        ]);
+        Log::record($e -> getMessage(),'error');
     }
 }
