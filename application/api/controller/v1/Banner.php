@@ -7,24 +7,25 @@
  */
 
 namespace app\api\controller\v1;
+use app\api\model\Banner as BannerModel;
 use app\api\validate\IDMustBePostiveInt;
-use app\api\validate\TestValidate;
-use think\Validate;
+use think\Exception;
 
 
 class Banner
 {
     public function getBanner($id){
-//        $data = [
-//            'id' => $id
-//        ];
-//        $validate = new IDMustBePostiveInt();
-//        $result = $validate ->batch() -> check($data);
-//        if($result){
-//            echo '444';
-//        }
-        (new IDMustBePostiveInt()) -> goCheck();
-        $d = 1;
-
+        $validate = new IDMustBePostiveInt();
+        $validate->goCheck();
+        try{
+            $banner = BannerModel::getBannerById($id);
+        }catch (Exception $ex){
+            $err = [
+                'error_code' => 10001,
+                'msg' => $ex -> getMessage()
+            ];
+            return json($err,400);
+        }
+        return $banner;
     }
 }
