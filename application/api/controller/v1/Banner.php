@@ -17,15 +17,7 @@ class Banner
     public function getBanner($id){
         $validate = new IDMustBePostiveInt();
         $validate->goCheck();
-        try{
-            $banner = BannerModel::getBannerById($id);
-        }catch (Exception $ex){
-            $err = [
-                'error_code' => 10001,
-                'msg' => $ex -> getMessage()
-            ];
-            return json($err,400);
-        }
+        $banner = BannerModel::getBannerById($id);
         return $banner;
     }
 }
