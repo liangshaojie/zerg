@@ -20,6 +20,7 @@ class Banner
         $validate->goCheck();
         $banner = BannerModel::getBannerById($id);
         if(!$banner){
+//            log('error');
             throw new BannerMissException();
         }
         return $banner;
