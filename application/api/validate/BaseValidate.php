@@ -24,11 +24,7 @@ class BaseValidate extends Validate
             $e = new ParameterException([
                 'msg' => $this -> error,
             ]);
-//            $e -> msg = $this -> error;
-//            $e -> errorCode = 10002;
             throw $e;
-//            $error = $this -> error;
-//            throw new Exception($error);
         }else{
             return true;
         }

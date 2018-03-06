@@ -17,10 +17,9 @@ class Banner
 {
     public function getBanner($id){
         $validate = new IDMustBePostiveInt();
-        $validate->goCheck();
+        $validate->batch() ->goCheck();
         $banner = BannerModel::getBannerById($id);
         if(!$banner){
-//            log('error');
             throw new Exception('内部错误');
         }
         return $banner;
