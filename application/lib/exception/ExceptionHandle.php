@@ -9,17 +9,16 @@
 namespace app\lib\exception;
 
 
-use Exception;
 use think\exception\Handle;
-use think\Request;
 use think\log;
+use think\Request;
 
 class ExceptionHandle extends Handle
 {
     private $code;
     private $msg;
     private $errorCode;
-    public function render(Exception $e)
+    public function render(\Exception $e)
     {
         if($e instanceof BaseException){
             $this -> code = $e -> code;
@@ -47,7 +46,7 @@ class ExceptionHandle extends Handle
 
     }
 
-    private function recordErrorLog(Exception $e){
+    private function recordErrorLog(\Exception $e){
         Log::init([
             // 日志记录方式，内置 file socket 支持扩展
             'type'  => 'File',
