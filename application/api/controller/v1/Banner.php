@@ -18,10 +18,11 @@ class Banner
     public function getBanner($id){
         $validate = new IDMustBePostiveInt();
         $validate->batch() ->goCheck();
-        $banner = BannerModel::getBannerById($id);
+//        $banner = BannerModel::getBannerById($id);
+        $banner = BannerModel::get($id);
         if(!$banner){
             throw new BannerMissException();
         }
-        return json($banner);
+        return $banner;
     }
 }
