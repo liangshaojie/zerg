@@ -20,8 +20,8 @@ class Banner
         $validate->batch() ->goCheck();
         $banner = BannerModel::getBannerById($id);
         if(!$banner){
-            throw new Exception('内部错误');
+            throw new BannerMissException();
         }
-        return $banner;
+        return json($banner);
     }
 }
