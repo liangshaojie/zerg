@@ -19,7 +19,7 @@ class Banner
         $validate = new IDMustBePostiveInt();
         $validate->batch() ->goCheck();
         $banner = BannerModel::getBannerById($id);
-//        $banner -> hidden(['delete_time','update_time']);
+//        $banner -> hidden(['delete_time','items.id']);
 //        $banner -> visible(['update_time']);
         if(!$banner){
             throw new BannerMissException();
