@@ -18,7 +18,7 @@ class Banner
     public function getBanner($id){
         $validate = new IDMustBePostiveInt();
         $validate->batch() ->goCheck();
-        $banner = BannerModel::with('items')->find($id);
+        $banner = BannerModel::with(['items','items.img'])->find($id);
         if(!$banner){
             throw new BannerMissException();
         }
