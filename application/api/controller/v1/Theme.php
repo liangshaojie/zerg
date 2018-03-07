@@ -9,7 +9,12 @@
 namespace app\api\controller\v1;
 
 
+use app\api\validate\IDCollection;
+
 class Theme
 {
-
+    public function getSimpleList($ids=''){
+        (new IDCollection())-> goCheck();
+        return 'success';
+    }
 }
