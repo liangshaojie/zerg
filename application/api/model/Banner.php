@@ -19,9 +19,7 @@ class Banner extends Model
     }
     public static function getBannerById($id)
     {
-        $result = Db::table('banner_item')
-            -> where('banner_id','=',$id)
-            -> select();
-        return $result;
+        $banner = self::with(['items','items.img'])->find($id);
+        return $banner;
     }
 }
