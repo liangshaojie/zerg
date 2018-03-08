@@ -12,4 +12,8 @@ namespace app\api\model;
 class Product extends BaseModel
 {
     protected $hidden = ['delete_time','update_time','main_img_id','from','category_id','create_time','pivot'];
+
+    public function getMainImgUrlAttr($value,$data){
+        return $this -> prefixImgUrl($value,$data);
+    }
 }
