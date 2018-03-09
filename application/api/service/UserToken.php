@@ -52,7 +52,7 @@ class UserToken
     private function processLoginError($wxResult){
         throw new WeChatException([
             'msg' => $wxResult['errmsg'],
-            'errorCode' => $wxResult['errCode']
+            'errorCode' => $wxResult['errcode']
         ]);
     }
 }
