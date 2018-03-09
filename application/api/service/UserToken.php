@@ -9,6 +9,7 @@
 namespace app\api\service;
 
 
+use app\lib\exception\WeChatException;
 use think\Exception;
 
 class UserToken
@@ -20,7 +21,7 @@ class UserToken
 
     function __construct($code)
     {
-        $this -> $code = $code;
+        $this -> code = $code;
         $this -> wxAppID = config('wx.app_id');
         $this -> wxAppSecret = config('wx.app_secret');
         $this -> wxLoginUrl = sprintf(config('wx.login_url'),$this->wxAppID,$this->wxAppSecret,$this->code);
@@ -35,11 +36,23 @@ class UserToken
         }else{
             $loginFail = array_key_exists('errcode',$wxResult);
             if($loginFail){
-                
+                $this->processLoginError($wxResult);
             }else{
-
+                $this -> grantToken($wxResult);
             }
         }
+    }
 
+    private function grantToken($wxResult){
+        $openid = $wxResult['openid'];
+
+    }
+
+
+    private function processLoginError($wxResult){
+        throw new WeChatException([
+            'msg' => $wxResult['errmsg'],
+            'errorCode' => $wxResult['errCode']
+        ]);
     }
 }
