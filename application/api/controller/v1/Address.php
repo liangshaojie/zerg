@@ -17,19 +17,20 @@ use app\lib\exception\SuccessException;
 class Address
 {
     public function createOrUpdateAddress(){
-        (new AddressNew()) -> goCheck();
+        $validate = new AddressNew();
+        $validate  -> goCheck();
         $uid = TokenService::getCurrentUid();
         $user = UserModel::get($uid);
         if(!$user){
             throw new UserException();
         }
-        $dataArray = getDatas();
+        $dataArray = $validate -> getDataByRule(input('post.'));
         $userAddress = $user -> address;
         if(!$userAddress){
             $user -> address() -> save($dataArray);
         }else{
             $user -> address -> save($dataArray);
         }
-        return new SuccessException();
+        return json(new SuccessException(),201);
     }
 }
