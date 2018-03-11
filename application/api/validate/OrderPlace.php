@@ -13,7 +13,7 @@ use app\lib\exception\ParameterException;
 
 class OrderPlace extends BaseValidate
 {
-    protected $products = [
+    protected $oProducts = [
         [
             'product_id' => 1,
             'count' => 5
@@ -24,10 +24,6 @@ class OrderPlace extends BaseValidate
         ],
         [
             'product_id' => 3,
-            'count' => 5
-        ],
-        [
-            'product_id' => 4,
             'count' => 5
         ]
     ];
