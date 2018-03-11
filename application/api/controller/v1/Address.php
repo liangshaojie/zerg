@@ -13,9 +13,26 @@ use app\api\model\User as UserModel;
 use app\api\validate\AddressNew;
 use app\api\service\Token as TokenService;
 use app\lib\exception\SuccessException;
+use think\Controller;
 
-class Address
+class Address extends Controller
 {
+    protected $beforeActionList = [
+        'first' => ['only' => 'second,third']
+    ];
+
+    protected function first(){
+        echo 'first';
+    }
+
+    public function second(){
+        echo 'second';
+    }
+
+    public function third(){
+        echo 'third';
+    }
+
     public function createOrUpdateAddress(){
         $validate = new AddressNew();
         $validate  -> goCheck();
