@@ -13,7 +13,10 @@ use app\api\service\Order as OrderService;
 use app\lib\enum\OrderStatusEnum;
 use app\lib\exception\OrderException;
 use app\lib\exception\TokenException;
+use think\Loader;
+use think\Log;
 
+Loader::import('WxPay.WxPay', EXTEND_PATH, '.Api.php');
 
 class Pay
 {
@@ -43,7 +46,6 @@ class Pay
     private function makeWxPreOrder($totalPrice)
     {
         $openid = Token::getCurrentTokenVar('openid');
-
         if (!$openid)
         {
             throw new TokenException();
@@ -54,9 +56,25 @@ class Pay
         $wxOrderData->SetTotal_fee($totalPrice * 100);
         $wxOrderData->SetBody('零食商贩');
         $wxOrderData->SetOpenid($openid);
-        $wxOrderData->SetNotify_url(config('secure.pay_back_url'));
+        $wxOrderData->SetNotify_url('http://qq.com');
 
         return $this->getPaySignature($wxOrderData);
+    }
+
+    //向微信请求订单号并生成签名
+    private function getPaySignature($wxOrderData)
+    {
+        $wxOrder = \WxPayApi::unifiedOrder($wxOrderData);
+        // 失败时不会返回result_code
+        if($wxOrder['return_code'] != 'SUCCESS' || $wxOrder['result_code'] !='SUCCESS'){
+            Log::record($wxOrder,'error');
+            Log::record('获取预支付订单失败','error');
+//            throw new Exception('获取预支付订单失败');
+        }
+        return null;
+//        $this->recordPreOrder($wxOrder);
+//        $signature = $this->sign($wxOrder);
+//        return $signature;
     }
 
 
