@@ -144,6 +144,15 @@ class Order
         return $userAddress->toArray();
     }
 
+    public function checkOrderStock($orderID){
+        $oProducts = OrderProduct::where('order_id', '=', $orderID)
+            ->select();
+        $this->products = $this->getProductsByOrder($oProducts);
+        $this->oProducts = $oProducts;
+        $status = $this->getOrderStatus();
+        return $status;
+    }
+
     private function getOrderStatus()
     {
         $status = [
